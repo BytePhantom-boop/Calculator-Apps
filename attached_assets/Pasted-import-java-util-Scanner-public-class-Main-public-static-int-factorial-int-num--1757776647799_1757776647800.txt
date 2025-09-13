@@ -1,0 +1,133 @@
+import java.util.Scanner;
+
+public class Main {
+
+    public static int factorial(int num) {
+        int a = 1;
+        for (int i = 1; i <= num; i++) {
+            a *= i;
+        }
+        return a;
+    }
+
+    public static void tableMaker(Scanner sc) {
+        System.out.println("Input your number");
+        int n = sc.nextInt();
+        for (int i = 1; i <= 10; i++) {
+            int a = i * n;
+            System.out.println(a);
+        }
+    }
+
+    public static void primeCheck(Scanner sc) {
+        System.out.println("Please input the number to be checked");
+        int n = sc.nextInt();
+        if (n > 1) {
+            int factor = 0;
+            for (int i = 2; i <= n - 1; i++) {
+                if (n % i == 0) {
+                    factor = 1;
+                    break;
+                }
+            }
+            if (factor == 1) {
+                System.out.println("Your number is composite");
+            } else {
+                System.out.println("Your number is prime");
+            }
+        } else {
+            System.out.println("Number must be greater than 1");
+        }
+    }
+
+    public static void basicCalculator(Scanner sc) {
+        System.out.println("Input a number");
+        int a = sc.nextInt();
+        System.out.println("Input second number");
+        int b = sc.nextInt();
+        System.out.println("Input the operation 1=Add, 2=Subtract, 3=Multiply, 4=Modulo");
+        int x = sc.nextInt();
+        if (x == 1) {
+            System.out.println(a + b);
+        } else if (x == 2) {
+            System.out.println(a - b);
+        } else if (x == 3) {
+            System.out.println(a * b);
+        } else if (x == 4) {
+            System.out.println(a % b);
+        } else {
+            System.out.println("Invalid operation");
+        }
+    }
+
+    public static void calculateNCR(Scanner sc) {
+        System.out.print("Enter n: ");
+        int n = sc.nextInt();
+        System.out.print("Enter r: ");
+        int r = sc.nextInt();
+        if (n > 0 && r > 0) {
+            if (n > r) {
+                int nFactorial = factorial(n);
+                int rFactorial = factorial(r);
+                int nrFactorial = factorial(n - r);
+                System.out.println("nCr = " + (nFactorial / (rFactorial * nrFactorial)));
+            } else {
+                System.out.println("n should be greater than r");
+            }
+        } else {
+            System.out.println("n or r cannot be negative");
+        }
+    }
+
+    public static void sumOfSeries(Scanner sc) {
+        System.out.print("Enter n: ");
+        int n = sc.nextInt();
+        int evenSum = 0, oddSum = 0;
+        for (int i = 2; i <= n; i += 2) {
+            evenSum += i;
+        }
+        for (int i = 1; i <= n; i += 2) {
+            oddSum += i;
+        }
+        System.out.println("Series result = " + (oddSum - evenSum));
+    }
+
+    public static void calculateFactorial(Scanner sc) {
+        System.out.print("Enter a number: ");
+        int n = sc.nextInt();
+        if (n < 0) {
+            System.out.println("Factorial is not defined for negative numbers.");
+        } else {
+            System.out.println("Factorial of " + n + " = " + factorial(n));
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int choice;
+        do {
+            System.out.println("\n--- MAIN MENU ---");
+            System.out.println("1. Calculate nCr");
+            System.out.println("2. Calculator");
+            System.out.println("3. Multiplication Table");
+            System.out.println("4. Prime Check");
+            System.out.println("5. Sum of Series (1-2+3-4+...)");
+            System.out.println("6. Factorial");
+            System.out.println("0. Exit");
+            System.out.print("Enter choice: ");
+            choice = sc.nextInt();
+
+            switch (choice) {
+                case 1: calculateNCR(sc); break;
+                case 2: basicCalculator(sc); break;
+                case 3: tableMaker(sc); break;
+                case 4: primeCheck(sc); break;
+                case 5: sumOfSeries(sc); break;
+                case 6: calculateFactorial(sc); break;
+                case 0: System.out.println("Exiting..."); break;
+                default: System.out.println("Invalid choice!");
+            }
+        } while (choice != 0);
+        sc.close();
+    }
+}
