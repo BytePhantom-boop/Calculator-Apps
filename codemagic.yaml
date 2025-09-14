@@ -3,17 +3,33 @@ workflows:
     name: Native Android
     max_build_duration: 120
     environment:
-      android_signing:
-        - Calc_keystore
       vars:
-        PACKAGE_NAME: "io.codemagic.Calculator-Apps"
+        PACKAGE_NAME: "com.calculator.app"
     scripts:
+      # 1. Install npm packages
+      - name: Install npm dependencies
+        script: |
+          npm install
+
+      # 2. Build web app
+      - name: Build web assets
+        script: |
+          npm run build
+
+      # 3. Copy web assets to Android
+      - name: Copy web assets to Android
+        script: |
+          npx cap copy android
+
+      # 4. Build Android release APK
       - name: Build release APK
         script: |
           cd android
           ./gradlew assembleRelease
+
     artifacts:
       - android/app/build/outputs/**/*.apk
+
     publishing:
       email:
         recipients:
