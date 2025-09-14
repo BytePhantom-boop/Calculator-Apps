@@ -29,7 +29,6 @@ workflows:
     publishing:
       email:
         recipients:
-          -f20250443@hyderabad.bits-pilani.ac.in
         notify:
           success: true
           failure: false
