@@ -9,8 +9,8 @@ workflows:
         - google_play
       vars:
         PACKAGE_NAME: "io.codemagic.Calculator-Apps"
-artifacts:
-  - app/build/outputs/apk/release/*.apk
+    artifacts:
+      - app/build/outputs/apk/release/*.apk
     publishing:
       email:
         recipients:
