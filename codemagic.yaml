@@ -3,8 +3,7 @@ workflows:
     name: Native Android
     max_build_duration: 120
     environment:
-      # Use JDK 17 to avoid the "invalid source release" error
-      java: openjdk17
+      # Remove explicit java version; use the instance default (OpenJDK 11)
       vars:
         PACKAGE_NAME: "com.calculator.app"
     scripts:
