@@ -3,28 +3,23 @@ workflows:
     name: Native Android
     max_build_duration: 120
     environment:
-      # Remove explicit java version; use the instance default (OpenJDK 11)
       vars:
         PACKAGE_NAME: "com.calculator.app"
-        android_signing:
+      android_signing:
         - Calc_keystore
     scripts:
-      # 1. Install npm dependencies
       - name: Install npm packages
         script: |
           npm install
 
-      # 2. Build web assets
       - name: Build web assets
         script: |
           npm run build
 
-      # 3. Copy web assets to Android project
       - name: Copy web assets to Android
         script: |
           npx cap copy android
 
-      # 4. Build Android release APK
       - name: Build release APK
         script: |
           cd android
