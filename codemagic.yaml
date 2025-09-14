@@ -3,10 +3,10 @@ workflows:
     name: Native Android
     max_build_duration: 120
     environment:
+      android_signing:
+        - Calc_keystore   # <-- this stays here
       vars:
         PACKAGE_NAME: "com.calculator.app"
-        android_signing:
-          - Calc_keystore
     scripts:
       # 1. Install npm dependencies
       - name: Install npm packages
