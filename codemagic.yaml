@@ -6,6 +6,8 @@ workflows:
       # Remove explicit java version; use the instance default (OpenJDK 11)
       vars:
         PACKAGE_NAME: "com.calculator.app"
+        android_signing:
+        - Calc_keystore
     scripts:
       # 1. Install npm dependencies
       - name: Install npm packages
