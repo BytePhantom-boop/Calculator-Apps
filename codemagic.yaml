@@ -5,12 +5,14 @@ workflows:
     environment:
       android_signing:
         - Calc_keystore
-      groups:
-        - google_play
       vars:
         PACKAGE_NAME: "io.codemagic.Calculator-Apps"
+    scripts:
+      - name: Build release APK
+        script: |
+          ./gradlew assembleRelease
     artifacts:
-      - app/build/outputs/apk/release/*.apk
+      - app/build/outputs/**/*.apk
     publishing:
       email:
         recipients:
