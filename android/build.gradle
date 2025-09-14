@@ -1,5 +1,4 @@
 // Top-level build file for all sub-projects/modules
-
 buildscript {
     repositories {
         google()
@@ -8,8 +7,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:8.7.2'
         classpath 'com.google.gms:google-services:4.4.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0" // add Kotlin plugin
-        // NOTE: Do not put app dependencies here; use module build.gradle
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10" // Add Kotlin plugin here
     }
 }
 
@@ -30,11 +28,6 @@ subprojects {
                 compileOptions {
                     sourceCompatibility JavaVersion.VERSION_17
                     targetCompatibility JavaVersion.VERSION_17
-                }
-            }
-            project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-                kotlinOptions {
-                    jvmTarget = "17"
                 }
             }
         }
