@@ -10,9 +10,10 @@ workflows:
     scripts:
       - name: Build release APK
         script: |
+          cd android
           ./gradlew assembleRelease
     artifacts:
-      - app/build/outputs/**/*.apk
+      - android/app/build/outputs/**/*.apk
     publishing:
       email:
         recipients:
