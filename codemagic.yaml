@@ -10,7 +10,7 @@ workflows:
       vars:
         PACKAGE_NAME: "io.codemagic.Calculator-Apps"
     artifacts:
-      - app/build/outputs/**/*.aab
+      - app/build/outputs/**/*.apk
     publishing:
       email:
         recipients:
