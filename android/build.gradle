@@ -8,8 +8,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:8.7.2'
         classpath 'com.google.gms:google-services:4.4.2'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10" // Added Kotlin plugin
     }
 }
 
@@ -22,17 +21,20 @@ allprojects {
     }
 }
 
-// Force all subprojects to use Java 11
+// Force all subprojects to use Java 11 and Kotlin jvmTarget
 subprojects {
     afterEvaluate { project ->
-        if (project.hasProperty("android")) {
-            android {
+        if (project.plugins.hasPlugin("com.android.application") || project.plugins.hasPlugin("com.android.library")) {
+            project.android {
                 compileOptions {
                     sourceCompatibility JavaVersion.VERSION_11
                     targetCompatibility JavaVersion.VERSION_11
                 }
-                kotlinOptions {
-                    jvmTarget = "11"
+                // Only set kotlinOptions if kotlin plugin is applied
+                if (project.plugins.hasPlugin("kotlin-android")) {
+                    kotlinOptions {
+                        jvmTarget = "11"
+                    }
                 }
             }
         }
