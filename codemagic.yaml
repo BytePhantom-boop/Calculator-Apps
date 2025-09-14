@@ -3,20 +3,22 @@ workflows:
     name: Native Android
     max_build_duration: 120
     environment:
+      # Use JDK 17 to avoid the "invalid source release" error
+      java: openjdk17
       vars:
         PACKAGE_NAME: "com.calculator.app"
     scripts:
-      # 1. Install npm packages
-      - name: Install npm dependencies
+      # 1. Install npm dependencies
+      - name: Install npm packages
         script: |
           npm install
 
-      # 2. Build web app
+      # 2. Build web assets
       - name: Build web assets
         script: |
           npm run build
 
-      # 3. Copy web assets to Android
+      # 3. Copy web assets to Android project
       - name: Copy web assets to Android
         script: |
           npx cap copy android
