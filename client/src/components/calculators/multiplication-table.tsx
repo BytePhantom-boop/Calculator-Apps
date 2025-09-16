@@ -1,12 +1,9 @@
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
-import type { MultiplicationTableInput } from "@shared/schema";
 
 interface TableEntry {
   multiplier: number;
@@ -15,25 +12,8 @@ interface TableEntry {
 
 export default function MultiplicationTable() {
   const [number, setNumber] = useState<string>("");
-  const [result, setResult] = useState<{ number: number; table: TableEntry[] } | null>(null);
+  const [table, setTable] = useState<TableEntry[] | null>(null);
   const { toast } = useToast();
-
-  const tableMutation = useMutation({
-    mutationFn: async (data: MultiplicationTableInput) => {
-      const response = await apiRequest("POST", "/api/multiplication-table", data);
-      return response.json();
-    },
-    onSuccess: (data) => {
-      setResult(data);
-    },
-    onError: (error: any) => {
-      toast({
-        title: "Calculation Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    },
-  });
 
   const handleGenerate = () => {
     const num = parseFloat(number);
@@ -47,7 +27,18 @@ export default function MultiplicationTable() {
       return;
     }
 
-    tableMutation.mutate({ number: num });
+    // Generate multiplication table 1-10 offline
+    const generatedTable: TableEntry[] = [];
+    for (let i = 1; i <= 10; i++) {
+      generatedTable.push({ multiplier: i, result: num * i });
+    }
+
+    setTable(generatedTable);
+  };
+
+  const handleClear = () => {
+    setNumber("");
+    setTable(null);
   };
 
   return (
@@ -62,7 +53,9 @@ export default function MultiplicationTable() {
         
         <div className="space-y-4">
           <div>
-            <Label className="block text-sm font-medium text-card-foreground mb-1">Enter Number</Label>
+            <Label className="block text-sm font-medium text-card-foreground mb-1">
+              Enter Number
+            </Label>
             <Input 
               type="number"
               value={number}
@@ -72,23 +65,24 @@ export default function MultiplicationTable() {
             />
           </div>
           
-          <Button 
-            onClick={handleGenerate}
-            disabled={tableMutation.isPending}
-            className="w-full"
-            style={{ backgroundColor: 'var(--chart-3)', color: 'white' }}
-            data-testid="button-generate-table"
-          >
-            {tableMutation.isPending ? "Generating..." : "Generate Table"}
-          </Button>
+          <div className="flex gap-2">
+            <Button onClick={handleGenerate} className="flex-1">
+              Generate Table
+            </Button>
+            <Button onClick={handleClear} variant="secondary" className="flex-1">
+              Clear
+            </Button>
+          </div>
           
           <div className="bg-muted rounded-md p-4 max-h-64 overflow-y-auto">
-            <Label className="block text-sm font-medium text-muted-foreground mb-2">Multiplication Table (1-10)</Label>
+            <Label className="block text-sm font-medium text-muted-foreground mb-2">
+              Multiplication Table (1-10)
+            </Label>
             <div className="result-display space-y-1 text-sm" data-testid="table-result">
-              {result ? (
-                result.table.map((entry) => (
+              {table ? (
+                table.map((entry) => (
                   <div key={entry.multiplier} className="flex justify-between py-1 border-b border-border/50">
-                    <span>{result.number} × {entry.multiplier}</span>
+                    <span>{number} × {entry.multiplier}</span>
                     <span className="font-semibold">= {entry.result}</span>
                   </div>
                 ))
